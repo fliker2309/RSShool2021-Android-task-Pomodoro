@@ -18,7 +18,7 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/field_stopwatch"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
