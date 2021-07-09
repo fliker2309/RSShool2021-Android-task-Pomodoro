@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # RSShool2021-Android-task-Pomodoro
 Rolling Scopes School - Android 2021 - Stage 1 - Task 3 - Pomodoro
 
@@ -59,3 +60,6 @@ It's fine :dog::fire:. Но хорошая новость в том, что ес
 
 
 
+=======
+# RSShool2021-Android-task-Pomodoro-
+>>>>>>> 0e01175... Initial commit
