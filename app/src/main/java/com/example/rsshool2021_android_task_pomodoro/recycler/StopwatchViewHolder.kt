@@ -1,4 +1,4 @@
-package com.example.rsshool2021_android_task_pomodoro.ui
+package com.example.rsshool2021_android_task_pomodoro.recycler
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rsshool2021_android_task_pomodoro.databinding.StopwatchItemBinding
