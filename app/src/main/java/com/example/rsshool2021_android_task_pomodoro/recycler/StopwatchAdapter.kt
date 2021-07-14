@@ -28,6 +28,8 @@ class StopwatchAdapter : ListAdapter<Stopwatch, StopwatchViewHolder>(itemCompara
                 return oldItem.id == newItem.id
             }
 
+            override fun getChangePayload(oldItem: Stopwatch, newItem: Stopwatch) = Any()
+
             override fun areContentsTheSame(oldItem: Stopwatch, newItem: Stopwatch): Boolean {
                 return oldItem.currentMs == newItem.currentMs &&
                         oldItem.isStarted == newItem.isStarted
