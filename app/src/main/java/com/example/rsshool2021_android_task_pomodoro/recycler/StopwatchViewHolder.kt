@@ -5,8 +5,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rsshool2021_android_task_pomodoro.databinding.StopwatchItemBinding
 import com.example.rsshool2021_android_task_pomodoro.model.Stopwatch
 
-class StopwatchViewHolder(private val binding: StopwatchItemBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+class StopwatchViewHolder(
+    private val binding: StopwatchItemBinding
+) : RecyclerView.ViewHolder(binding.root) {
 
     private var timer: CountDownTimer? = null
 
@@ -25,11 +26,11 @@ class StopwatchViewHolder(private val binding: StopwatchItemBinding) :
     }
 
     private fun getCountDownTimer(stopwatch: Stopwatch): CountDownTimer {
-        return object : CountDownTimer(PERIOD, UNIT_TEN_MS){
+        return object : CountDownTimer(PERIOD, UNIT_TEN_MS) {
             val interval = UNIT_TEN_MS
 
             override fun onTick(p0: Long) {
-                stopwatch.currentMs +=interval
+                stopwatch.currentMs += interval
                 binding.stopwatchTimer.text = stopwatch.currentMs.displayTime()
             }
 
@@ -37,9 +38,7 @@ class StopwatchViewHolder(private val binding: StopwatchItemBinding) :
                 binding.stopwatchTimer.text = stopwatch.currentMs.displayTime()
             }
         }
-
     }
-
 
     private fun Long.displayTime(): String {
         if (this <= 0L) return START_TIME
@@ -58,7 +57,6 @@ class StopwatchViewHolder(private val binding: StopwatchItemBinding) :
             "0$count"
         }
     }
-
 
     private companion object {
         private const val START_TIME = "00:00:00"
