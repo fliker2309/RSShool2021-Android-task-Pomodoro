@@ -22,7 +22,7 @@ class StopwatchViewHolder(
         if (stopwatch.isStarted) {
             startTimer(stopwatch)
         } else {
-            stopTimer(stopwatch)
+            stopTimer()
         }
 
         initButtonsListener(stopwatch)
@@ -51,15 +51,16 @@ class StopwatchViewHolder(
 
         binding.blinkingIndicator.visibility = View.VISIBLE
         (binding.blinkingIndicator.background as? AnimationDrawable)?.start()
+        binding.stopwatchStartStopBtn.text = "STOP"
 
     }
 
-    private fun stopTimer(stopwatch: Stopwatch) {
+    private fun stopTimer() {
         timer?.cancel()
-
 
         binding.blinkingIndicator.visibility = View.INVISIBLE
         (binding.blinkingIndicator.background as? AnimationDrawable)?.stop()
+        binding.stopwatchStartStopBtn.text = "START"
     }
 
     private fun getCountDownTimer(stopwatch: Stopwatch): CountDownTimer {
