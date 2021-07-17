@@ -1,12 +1,17 @@
 package com.example.rsshool2021_android_task_pomodoro.recycler
 
+import android.graphics.drawable.AnimationDrawable
 import android.os.CountDownTimer
+import android.view.View
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rsshool2021_android_task_pomodoro.`interface`.StopwatchListener
 import com.example.rsshool2021_android_task_pomodoro.databinding.StopwatchItemBinding
 import com.example.rsshool2021_android_task_pomodoro.model.Stopwatch
 
 class StopwatchViewHolder(
-    private val binding: StopwatchItemBinding
+    private val binding: StopwatchItemBinding,
+    private val listener: StopwatchListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private var timer: CountDownTimer? = null
@@ -16,13 +21,45 @@ class StopwatchViewHolder(
 
         if (stopwatch.isStarted) {
             startTimer(stopwatch)
+        } else {
+            stopTimer(stopwatch)
+        }
+
+        initButtonsListener(stopwatch)
+    }
+
+
+    private fun initButtonsListener(stopwatch: Stopwatch) {
+        binding.stopwatchStartStopBtn.setOnClickListener {
+            if (stopwatch.isStarted) {
+                listener.stop(stopwatch.id, stopwatch.currentMs)
+            } else {
+                listener.start(stopwatch.id)
+            }
+        }
+
+        binding.deleteButton.setOnClickListener {
+            listener.delete(stopwatch.id)
         }
     }
 
     private fun startTimer(stopwatch: Stopwatch) {
+
         timer?.cancel()
         timer = getCountDownTimer(stopwatch)
         timer?.start()
+
+        binding.blinkingIndicator.visibility = View.VISIBLE
+        (binding.blinkingIndicator.background as? AnimationDrawable)?.start()
+
+    }
+
+    private fun stopTimer(stopwatch: Stopwatch) {
+        timer?.cancel()
+
+
+        binding.blinkingIndicator.visibility = View.INVISIBLE
+        (binding.blinkingIndicator.background as? AnimationDrawable)?.stop()
     }
 
     private fun getCountDownTimer(stopwatch: Stopwatch): CountDownTimer {

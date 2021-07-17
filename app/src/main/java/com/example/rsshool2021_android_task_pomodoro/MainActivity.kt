@@ -2,6 +2,8 @@ package com.example.rsshool2021_android_task_pomodoro
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.app.NotificationChannelCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rsshool2021_android_task_pomodoro.`interface`.StopwatchListener
 import com.example.rsshool2021_android_task_pomodoro.databinding.ActivityMainBinding
@@ -13,7 +15,7 @@ class MainActivity : AppCompatActivity(), StopwatchListener {
     private lateinit var binding: ActivityMainBinding
 
     private val stopwatches = mutableListOf<Stopwatch>()
-    private val stopwatchAdapter = StopwatchAdapter()
+    private val stopwatchAdapter = StopwatchAdapter(this)
     private var nextId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,18 +34,44 @@ class MainActivity : AppCompatActivity(), StopwatchListener {
             stopwatches.add(Stopwatch(nextId++, 0, false))
             stopwatchAdapter.submitList(stopwatches.toList())
         }
+
+
     }
+
+    /*override fun onStart() {
+        super.onStart()
+        createNotificationChannel()
+    }*/
+
+  /*  private fun createNotificationChannel() {
+        val notificationManagerCompat = NotificationManagerCompat.from(applicationContext)
+        val channel = NotificationChannelCompat
+            .Builder(//TODO)
+                . setName (//TODO)
+            .setDescription(//TODO)
+                . build ()
+    }*/
+
+    /* override fun onSaveInstanceState(outState: Bundle) {
+         super.onSaveInstanceState(outState)
+         outState.putAll(Bundle)
+     }
+
+     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+         super.onRestoreInstanceState(savedInstanceState)
+     }*/
 
     override fun start(id: Int) {
-        TODO("Not yet implemented")
+        changeStopwatch(id,null,true)
     }
 
-    override fun stop(id: Int) {
-        TODO("Not yet implemented")
+    override fun stop(id: Int, currentMs: Long) {
+        changeStopwatch(id,currentMs,false)
     }
 
     override fun delete(id: Int) {
-        TODO("Not yet implemented")
+        stopwatches.remove(stopwatches.find { it.id == id })
+        stopwatchAdapter.submitList(stopwatches.toList())
     }
 
 
