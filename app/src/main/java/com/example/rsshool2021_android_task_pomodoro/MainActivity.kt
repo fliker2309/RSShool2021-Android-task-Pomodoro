@@ -28,14 +28,18 @@ class MainActivity : AppCompatActivity(), TimerListener {
         }
 
 
-        binding.addNewTimerButton.setOnClickListener {
-            stopwatches.add(Timer(nextId++, 0, false))
+        /*binding.addNewTimerButton.setOnClickListener {
+            stopwatches.add(Timer(nextId++, 0, false, false))
             stopwatchAdapter.submitList(stopwatches.toList())
-        }
+        }*/
 
 
     }
+/*private fun initListeners(){
+    val startMs = binding.fieldTimer.text.toString().toLongOrNull().run {
 
+    }
+}*/
     /*override fun onStart() {
         super.onStart()
         createNotificationChannel()
@@ -59,20 +63,20 @@ class MainActivity : AppCompatActivity(), TimerListener {
          super.onRestoreInstanceState(savedInstanceState)
      }*/
 
-    override fun start(id: Int) {
+  /*  override fun start(id: Int) {
         changeStopwatch(id,null,true)
     }
 
     override fun stop(id: Int, currentMs: Long) {
         changeStopwatch(id,currentMs,false)
     }
-
+*/
     override fun delete(id: Int) {
         stopwatches.remove(stopwatches.find { it.id == id })
         stopwatchAdapter.submitList(stopwatches.toList())
     }
 
-    private fun changeStopwatch(id: Int, currentMs: Long?, isStarted: Boolean) {
+    /*private fun changeStopwatch(id: Int, currentMs: Long?, isStarted: Boolean) {
         val newTimers = mutableListOf<Timer>()
         stopwatches.forEach {
             if (it.id == id) {
@@ -84,7 +88,7 @@ class MainActivity : AppCompatActivity(), TimerListener {
         stopwatchAdapter.submitList(newTimers)
         stopwatches.clear()
         stopwatches.addAll(newTimers)
-    }
+    }*/
 
 
 }

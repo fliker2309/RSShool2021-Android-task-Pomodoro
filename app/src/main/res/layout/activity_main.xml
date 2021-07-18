@@ -6,27 +6,61 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/margin_bottom_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="@dimen/main_margin" />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/main_margin"
         app:layout_constraintBottom_toTopOf="@+id/add_new_timer_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/timer_item" />
 
+
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/field_timer"
+        android:id="@+id/field_minutes"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:hint="Minutes"
         android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/margin_bottom_guideline"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/field_seconds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/minutes_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/main_margin"
+        android:text="MINUTES"
+
+        app:layout_constraintBottom_toBottomOf="@id/margin_bottom_guideline"
+
+        />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/seconds_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/main_margin"
+        android:text="SECONDS"
+        app:layout_constraintBottom_toBottomOf="@id/margin_bottom_guideline"
+        app:layout_constraintStart_toEndOf="@id/minutes_tv" />
 
 
     <com.google.android.material.button.MaterialButton
@@ -34,10 +68,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:text="ADD TIMER"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/margin_bottom_guideline"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

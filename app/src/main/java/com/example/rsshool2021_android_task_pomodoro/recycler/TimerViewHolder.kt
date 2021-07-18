@@ -3,6 +3,8 @@ package com.example.rsshool2021_android_task_pomodoro.recycler
 import android.graphics.drawable.AnimationDrawable
 import android.os.CountDownTimer
 import android.view.View
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rsshool2021_android_task_pomodoro.`interface`.TimerListener
 import com.example.rsshool2021_android_task_pomodoro.databinding.TimerItemBinding
@@ -16,7 +18,9 @@ class TimerViewHolder(
     private var timer: CountDownTimer? = null
 
     fun bind(timer: Timer) {
+
         binding.timerClock.text = timer.currentMs.displayTime()
+        binding.customView.setPeriod(timer.startMs)
 
         if (timer.isStarted) {
             startTimer(timer)
@@ -24,11 +28,18 @@ class TimerViewHolder(
             stopTimer()
         }
 
+        if (timer.isFinished){
+            binding.customView.setCurrent(0L)
+        } else{
+            binding.customView.setCurrent(timer.currentMs)
+        }
+
         initButtonsListener(timer)
     }
 
 
     private fun initButtonsListener(timer: Timer) {
+
         binding.timerStartStopBtn.setOnClickListener {
             if (timer.isStarted) {
                 listener.stop(timer.id, timer.currentMs)
@@ -44,20 +55,21 @@ class TimerViewHolder(
 
     private fun startTimer(timer: Timer) {
 
+        if(timer.currentMs <= 0L) return
         this.timer?.cancel()
         this.timer = getCountDownTimer(timer)
         this.timer?.start()
 
-        binding.blinkingIndicator.visibility = View.VISIBLE
+        binding.blinkingIndicator.isVisible = true
         (binding.blinkingIndicator.background as? AnimationDrawable)?.start()
         binding.timerStartStopBtn.text = "STOP"
-
     }
 
     private fun stopTimer() {
+
         timer?.cancel()
 
-        binding.blinkingIndicator.visibility = View.INVISIBLE
+        binding.blinkingIndicator.isInvisible = true
         (binding.blinkingIndicator.background as? AnimationDrawable)?.stop()
         binding.timerStartStopBtn.text = "START"
     }
