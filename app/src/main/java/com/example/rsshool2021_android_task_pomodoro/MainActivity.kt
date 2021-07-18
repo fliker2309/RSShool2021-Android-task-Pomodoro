@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity(), TimerListener {
             val seconds = binding.fieldSeconds.text.toString()
 
             if ((minutes).isEmpty() || seconds.isEmpty()) {
-                binding.addNewTimerButton.isVisible = false
+                binding.addNewTimerButton.isEnabled = false
             }
             var startMs = minutes.toLongOrNull().let {
                 minutes.toLong() * 1000L * 60L
