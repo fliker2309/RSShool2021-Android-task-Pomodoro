@@ -3,55 +3,54 @@ package com.example.rsshool2021_android_task_pomodoro.recycler
 import android.graphics.drawable.AnimationDrawable
 import android.os.CountDownTimer
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rsshool2021_android_task_pomodoro.`interface`.StopwatchListener
-import com.example.rsshool2021_android_task_pomodoro.databinding.StopwatchItemBinding
-import com.example.rsshool2021_android_task_pomodoro.model.Stopwatch
+import com.example.rsshool2021_android_task_pomodoro.`interface`.TimerListener
+import com.example.rsshool2021_android_task_pomodoro.databinding.TimerItemBinding
+import com.example.rsshool2021_android_task_pomodoro.model.Timer
 
-class StopwatchViewHolder(
-    private val binding: StopwatchItemBinding,
-    private val listener: StopwatchListener
+class TimerViewHolder(
+    private val binding: TimerItemBinding,
+    private val listener: TimerListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private var timer: CountDownTimer? = null
 
-    fun bind(stopwatch: Stopwatch) {
-        binding.stopwatchTimer.text = stopwatch.currentMs.displayTime()
+    fun bind(timer: Timer) {
+        binding.timerClock.text = timer.currentMs.displayTime()
 
-        if (stopwatch.isStarted) {
-            startTimer(stopwatch)
+        if (timer.isStarted) {
+            startTimer(timer)
         } else {
             stopTimer()
         }
 
-        initButtonsListener(stopwatch)
+        initButtonsListener(timer)
     }
 
 
-    private fun initButtonsListener(stopwatch: Stopwatch) {
-        binding.stopwatchStartStopBtn.setOnClickListener {
-            if (stopwatch.isStarted) {
-                listener.stop(stopwatch.id, stopwatch.currentMs)
+    private fun initButtonsListener(timer: Timer) {
+        binding.timerStartStopBtn.setOnClickListener {
+            if (timer.isStarted) {
+                listener.stop(timer.id, timer.currentMs)
             } else {
-                listener.start(stopwatch.id)
+                listener.start(timer.id)
             }
         }
 
         binding.deleteButton.setOnClickListener {
-            listener.delete(stopwatch.id)
+            listener.delete(timer.id)
         }
     }
 
-    private fun startTimer(stopwatch: Stopwatch) {
+    private fun startTimer(timer: Timer) {
 
-        timer?.cancel()
-        timer = getCountDownTimer(stopwatch)
-        timer?.start()
+        this.timer?.cancel()
+        this.timer = getCountDownTimer(timer)
+        this.timer?.start()
 
         binding.blinkingIndicator.visibility = View.VISIBLE
         (binding.blinkingIndicator.background as? AnimationDrawable)?.start()
-        binding.stopwatchStartStopBtn.text = "STOP"
+        binding.timerStartStopBtn.text = "STOP"
 
     }
 
@@ -60,20 +59,20 @@ class StopwatchViewHolder(
 
         binding.blinkingIndicator.visibility = View.INVISIBLE
         (binding.blinkingIndicator.background as? AnimationDrawable)?.stop()
-        binding.stopwatchStartStopBtn.text = "START"
+        binding.timerStartStopBtn.text = "START"
     }
 
-    private fun getCountDownTimer(stopwatch: Stopwatch): CountDownTimer {
+    private fun getCountDownTimer(timer: Timer): CountDownTimer {
         return object : CountDownTimer(PERIOD, UNIT_TEN_MS) {
             val interval = UNIT_TEN_MS
 
             override fun onTick(p0: Long) {
-                stopwatch.currentMs += interval
-                binding.stopwatchTimer.text = stopwatch.currentMs.displayTime()
+                timer.currentMs -= interval
+                binding.timerClock.text = timer.currentMs.displayTime()
             }
 
             override fun onFinish() {
-                binding.stopwatchTimer.text = stopwatch.currentMs.displayTime()
+                binding.timerClock.text = timer.currentMs.displayTime()
             }
         }
     }

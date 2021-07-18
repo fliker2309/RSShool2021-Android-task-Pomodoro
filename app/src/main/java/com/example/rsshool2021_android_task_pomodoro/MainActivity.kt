@@ -2,20 +2,18 @@ package com.example.rsshool2021_android_task_pomodoro
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.app.NotificationChannelCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rsshool2021_android_task_pomodoro.`interface`.StopwatchListener
+import com.example.rsshool2021_android_task_pomodoro.`interface`.TimerListener
 import com.example.rsshool2021_android_task_pomodoro.databinding.ActivityMainBinding
-import com.example.rsshool2021_android_task_pomodoro.model.Stopwatch
-import com.example.rsshool2021_android_task_pomodoro.recycler.StopwatchAdapter
+import com.example.rsshool2021_android_task_pomodoro.model.Timer
+import com.example.rsshool2021_android_task_pomodoro.recycler.TimerAdapter
 
-class MainActivity : AppCompatActivity(), StopwatchListener {
+class MainActivity : AppCompatActivity(), TimerListener {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val stopwatches = mutableListOf<Stopwatch>()
-    private val stopwatchAdapter = StopwatchAdapter(this)
+    private val stopwatches = mutableListOf<Timer>()
+    private val stopwatchAdapter = TimerAdapter(this)
     private var nextId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,8 +28,8 @@ class MainActivity : AppCompatActivity(), StopwatchListener {
         }
 
 
-        binding.addNewStopwatchButton.setOnClickListener {
-            stopwatches.add(Stopwatch(nextId++, 0, false))
+        binding.addNewTimerButton.setOnClickListener {
+            stopwatches.add(Timer(nextId++, 0, false))
             stopwatchAdapter.submitList(stopwatches.toList())
         }
 
@@ -75,10 +73,10 @@ class MainActivity : AppCompatActivity(), StopwatchListener {
     }
 
     private fun changeStopwatch(id: Int, currentMs: Long?, isStarted: Boolean) {
-        val newTimers = mutableListOf<Stopwatch>()
+        val newTimers = mutableListOf<Timer>()
         stopwatches.forEach {
             if (it.id == id) {
-                newTimers.add(Stopwatch(it.id, currentMs ?: it.currentMs, isStarted))
+                newTimers.add(Timer(it.id, currentMs ?: it.currentMs, isStarted))
             } else {
                 newTimers.add(it)
             }

@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/stopwatch_timer"
+            android:id="@+id/timer_clock"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -41,12 +41,12 @@
             app:custom_color="@color/black"
             app:custom_style="fill"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/stopwatch_timer"
+            app:layout_constraintStart_toEndOf="@id/timer_clock"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/stopwatch_start_stop_btn"
+            android:id="@+id/timer_start_stop_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

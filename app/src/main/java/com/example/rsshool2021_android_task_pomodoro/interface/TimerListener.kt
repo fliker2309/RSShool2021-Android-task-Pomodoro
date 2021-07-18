@@ -1,6 +1,6 @@
 package com.example.rsshool2021_android_task_pomodoro.`interface`
 
-interface StopwatchListener {
+interface TimerListener {
 
     fun start(id: Int)
 
