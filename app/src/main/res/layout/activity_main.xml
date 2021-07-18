@@ -13,7 +13,6 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="@dimen/main_margin" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
@@ -23,7 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/timer_item" />
-
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/field_minutes"
@@ -80,7 +78,7 @@
         android:layout_marginEnd="16dp"
         android:text="ADD TIMER"
         app:layout_constraintBottom_toBottomOf="@id/margin_bottom_guideline"
-        app:layout_constraintTop_toTopOf="@id/field_minutes"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/field_minutes" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
