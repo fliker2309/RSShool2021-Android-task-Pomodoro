@@ -25,6 +25,7 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/field_minutes"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/small_margin"
@@ -39,6 +40,7 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/field_seconds"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/small_margin"

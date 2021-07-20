@@ -69,7 +69,6 @@
             app:layout_constraintEnd_toStartOf="@id/delete_timer_button"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <ImageButton
             android:id="@+id/delete_timer_button"
             android:layout_width="0dp"
@@ -80,7 +79,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

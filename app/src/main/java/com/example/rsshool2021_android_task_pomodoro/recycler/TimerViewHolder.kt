@@ -20,7 +20,7 @@ class TimerViewHolder(
     fun bind(timer: Timer) {
 
         binding.timerClock.text = timer.currentMs.displayTime()
-        binding.customView.setPeriod(timer.startMs)
+        binding.progressBarCircular.setPeriod(timer.startMs)
 
         if (timer.isStarted) {
             startTimer(timer)
@@ -29,9 +29,9 @@ class TimerViewHolder(
         }
 
         if (timer.isFinished){
-            binding.customView.setCurrent(0L)
+            binding.progressBarCircular.setCurrent(0L)
         } else{
-            binding.customView.setCurrent(timer.currentMs)
+            binding.progressBarCircular.setCurrent(timer.currentMs)
         }
 
         initButtonsListener(timer)
@@ -44,11 +44,11 @@ class TimerViewHolder(
             if (timer.isStarted) {
                 listener.stop(timer.id, timer.currentMs)
             } else {
-                listener.start(timer.id)
+                listener.start(timer.id, timer.startMs)
             }
         }
 
-        binding.deleteButton.setOnClickListener {
+        binding.deleteTimerButton.setOnClickListener {
             listener.delete(timer.id)
         }
     }
