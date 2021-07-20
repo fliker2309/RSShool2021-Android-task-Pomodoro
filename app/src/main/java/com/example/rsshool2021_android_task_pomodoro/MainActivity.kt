@@ -56,30 +56,12 @@ class MainActivity : AppCompatActivity(), TimerListener {
             startMs += seconds.toLongOrNull()?.let {
                 seconds.toLong() * 1000L
             } ?: 0L
+
         }
     }
-    /*override fun onStart() {
-        super.onStart()
-        createNotificationChannel()
-    }*/
 
-    /*  private fun createNotificationChannel() {
-          val notificationManagerCompat = NotificationManagerCompat.from(applicationContext)
-          val channel = NotificationChannelCompat
-              .Builder(//TODO)
-                  . setName (//TODO)
-              .setDescription(//TODO)
-                  . build ()
-      }*/
 
-    /* override fun onSaveInstanceState(outState: Bundle) {
-         super.onSaveInstanceState(outState)
-         outState.putAll(Bundle)
-     }
 
-     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-         super.onRestoreInstanceState(savedInstanceState)
-     }*/
 
     /*  override fun start(id: Int) {
           changeStopwatch(id,null,true)

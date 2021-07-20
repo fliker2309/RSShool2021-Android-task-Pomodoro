@@ -16,7 +16,7 @@
             android:id="@+id/blinking_indicator"
             android:layout_width="8dp"
             android:layout_height="8dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="10dp"
             android:background="@drawable/blinking_circle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,7 @@
             android:id="@+id/timer_clock"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="10dp"
             android:text="00:00:00"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -37,7 +37,7 @@
             android:id="@+id/custom_view"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="10dp"
             app:custom_color="@color/black"
             app:custom_style="fill"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -49,7 +49,7 @@
             android:id="@+id/timer_start_stop_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="12dp"
             android:background="@color/black"
             android:text="START"
             android:textSize="24sp"
@@ -58,10 +58,22 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
+            android:id="@+id/restart_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:background="@color/cardview_light_background"
+            android:padding="8dp"
+            android:src="@drawable/ic_baseline_refresh_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/timer_start_stop_btn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageButton
             android:id="@+id/delete_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:background="@color/cardview_light_background"
             android:padding="8dp"
             android:src="@drawable/ic_baseline_delete_24"
