@@ -15,7 +15,11 @@ class TimerAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimerViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = TimerItemBinding.inflate(layoutInflater, parent, false)
-        return TimerViewHolder(binding, listener,binding.root.context.resources) //добавление ресурсов
+        return TimerViewHolder(
+            binding,
+            listener,
+            binding.root.context.resources
+        )
     }
 
     override fun onBindViewHolder(holder: TimerViewHolder, position: Int) {

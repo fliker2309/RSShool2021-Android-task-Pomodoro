@@ -95,7 +95,7 @@ class TimerViewHolder(
             }
 
             override fun onFinish() {
-                binding.timerItem.setCardBackgroundColor(resources.getColor(R.color.purple_500))
+                binding.timerItem.setCardBackgroundColor(resources.getColor(R.color.teal_700))
                 binding.progressBarCircular.setCurrent(timer.startMs - timer.currentMs)
                 binding.blinkingIndicator.isVisible = false
                 binding.timerStartStopBtn.isClickable = false

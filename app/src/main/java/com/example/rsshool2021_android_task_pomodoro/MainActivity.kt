@@ -36,13 +36,12 @@ class MainActivity : AppCompatActivity(), TimerListener {
             layoutManager = LinearLayoutManager(context)
             adapter = timerAdapter
         }
-
         //проверка на ввод значения
         minutes = binding.fieldMinutes
         enableAddTimerButton()
         minutes?.doAfterTextChanged {
-                mins = minutes?.text.toString()
-                enableAddTimerButton()
+            mins = minutes?.text.toString()
+            enableAddTimerButton()
         }
 
         initListeners()
@@ -63,29 +62,30 @@ class MainActivity : AppCompatActivity(), TimerListener {
                 minutesMillis *= 1000L * 60
                 timers.add(Timer(nextId++, minutesMillis, false, minutesMillis))
                 timerAdapter.submitList(timers.toList())
-            } catch (e:NumberFormatException) {
-                Toast.makeText(applicationContext,"Please,delete symbol :", Toast.LENGTH_SHORT).show()
+            } catch (e: NumberFormatException) {
+                Toast.makeText(applicationContext, "Please,delete symbol :", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
             }
-
         }
     }
 
     override fun start(id: Int) {
         val stopTimers = mutableListOf<Timer>()
         timers.forEach {
-            stopTimers.add(Timer(
-                it.id,
-                it.startMs,
-                false,
-                it.currentMs
-            ))
+            stopTimers.add(
+                Timer(
+                    it.id,
+                    it.startMs,
+                    false,
+                    it.currentMs
+                )
+            )
         }
         timerAdapter.submitList(stopTimers)
         timers.clear()
         timers.addAll(stopTimers)
         changeTimer(id, null, true)
-
     }
 
     override fun stop(id: Int, currentMs: Long) {
