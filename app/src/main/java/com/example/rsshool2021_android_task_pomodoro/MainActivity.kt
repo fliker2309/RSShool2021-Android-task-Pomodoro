@@ -72,7 +72,19 @@ class MainActivity : AppCompatActivity(), TimerListener {
     }
 
     override fun start(id: Int) {
-        changeTimer(id, null, true)// добавить остановку других таймеров при запуске одного
+        val stopTimers = mutableListOf<Timer>()
+        timers.forEach {
+            stopTimers.add(Timer(
+                it.id,
+                it.startMs,
+                false,
+                it.currentMs
+            ))
+        }
+        timerAdapter.submitList(stopTimers)
+        timers.clear()
+        timers.addAll(stopTimers)
+        changeTimer(id, null, true)
 
     }
 
