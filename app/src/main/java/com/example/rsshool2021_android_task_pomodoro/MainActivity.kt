@@ -1,20 +1,25 @@
 package com.example.rsshool2021_android_task_pomodoro
 
-import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rsshool2021_android_task_pomodoro.`interface`.TimerListener
 import com.example.rsshool2021_android_task_pomodoro.databinding.ActivityMainBinding
 import com.example.rsshool2021_android_task_pomodoro.model.Timer
 import com.example.rsshool2021_android_task_pomodoro.recycler.TimerAdapter
+import com.example.rsshool2021_android_task_pomodoro.service.COMMAND_ID
+import com.example.rsshool2021_android_task_pomodoro.service.COMMAND_START
+import com.example.rsshool2021_android_task_pomodoro.service.COMMAND_STOP
+import com.example.rsshool2021_android_task_pomodoro.service.STARTED_TIMER_TIME_MS
 
-class MainActivity : AppCompatActivity(), TimerListener {
+class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -31,6 +36,8 @@ class MainActivity : AppCompatActivity(), TimerListener {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
 
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(context)
@@ -123,4 +130,24 @@ class MainActivity : AppCompatActivity(), TimerListener {
         timers.addAll(newTimers)
 
     }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    fun onAppBackgrounded(){
+        timers.forEach {
+            if(it.isStarted){
+                val intent = Intent(this, ForegroundService::class.java)
+                intent.putExtra(COMMAND_ID, COMMAND_START)
+                intent.putExtra(STARTED_TIMER_TIME_MS, it)
+                startService(intent)
+            }
+        }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun onAppForeground(){
+       val intent = Intent(this,ForegroundService::class.java)
+        intent.putExtra(COMMAND_ID,COMMAND_STOP)
+        startService(intent)
+    }
+
 }
