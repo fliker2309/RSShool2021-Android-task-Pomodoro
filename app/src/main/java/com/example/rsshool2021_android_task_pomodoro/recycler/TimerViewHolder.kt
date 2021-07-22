@@ -4,6 +4,8 @@ import android.content.res.Resources
 import android.graphics.drawable.AnimationDrawable
 import android.os.CountDownTimer
 import android.view.View
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +15,7 @@ import com.example.rsshool2021_android_task_pomodoro.databinding.TimerItemBindin
 import com.example.rsshool2021_android_task_pomodoro.model.Timer
 import com.example.rsshool2021_android_task_pomodoro.service.UNIT_TEN_MS
 import com.example.rsshool2021_android_task_pomodoro.service.displayTime
+import android.content.Context as Context1
 
 class TimerViewHolder(
     private val binding: TimerItemBinding,
@@ -23,6 +26,7 @@ class TimerViewHolder(
     private var countDownTimer: CountDownTimer? = null
 
     fun bind(timer: Timer) {
+        binding.timerItem.setCardBackgroundColor(resources.getColor(R.color.design_default_color_background))
         binding.timerClock.text = timer.currentMs.displayTime()
         binding.timerStartStopBtn.text = "START"
         binding.progressBarCircular.setPeriod(timer.startMs)
@@ -91,10 +95,11 @@ class TimerViewHolder(
             }
 
             override fun onFinish() {
-             /*   binding.timerItem.setCardBackgroundColor(resources.getColor(R.color.teal_700))*/
+                binding.timerItem.setCardBackgroundColor(resources.getColor(R.color.purple_500))
                 binding.progressBarCircular.setCurrent(timer.startMs - timer.currentMs)
                 binding.blinkingIndicator.isVisible = false
                 binding.timerStartStopBtn.isClickable = false
+                binding.timerStartStopBtn.text = "ENDED"
                 setIsRecyclable(true)
                 (binding.blinkingIndicator.background as? AnimationDrawable)?.stop()
             }
