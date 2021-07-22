@@ -25,52 +25,17 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/field_minutes"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/small_margin"
+        android:layout_marginBottom="@dimen/main_margin"
         android:background="@color/transparent"
-        android:hint="00"
+        android:hint="Minutes"
         android:inputType="time"
-        android:maxLength="3"
+        android:maxLength="4"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintBottom_toTopOf="@id/minutes_tv"
-        app:layout_constraintEnd_toEndOf="@+id/minutes_tv"
-        app:layout_constraintStart_toStartOf="@id/minutes_tv" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/field_seconds"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/small_margin"
-        android:background="@color/transparent"
-        android:hint="00"
-        android:inputType="time"
-        android:maxLength="2"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintBottom_toTopOf="@id/seconds_tv"
-        app:layout_constraintEnd_toEndOf="@+id/seconds_tv"
-        app:layout_constraintStart_toStartOf="@id/seconds_tv" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/minutes_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/main_margin"
-        android:text="MINUTES"
         app:layout_constraintBottom_toBottomOf="@id/margin_bottom_guideline"
         app:layout_constraintStart_toStartOf="parent" />
-
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/seconds_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/main_margin"
-        android:text="SECONDS"
-        app:layout_constraintBottom_toBottomOf="@id/margin_bottom_guideline"
-        app:layout_constraintStart_toEndOf="@id/minutes_tv" />
 
 
     <com.google.android.material.button.MaterialButton

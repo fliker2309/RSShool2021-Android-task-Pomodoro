@@ -14,6 +14,7 @@ class CustomView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     @AttrRes defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
+
     private var periodMs = 0L
     private var currentMs = 0L
     private var color = 0
@@ -31,7 +32,6 @@ class CustomView @JvmOverloads constructor(
             color = styledAttrs.getColor(R.styleable.CustomView_custom_color, Color.BLUE)
             style = styledAttrs.getInt(R.styleable.CustomView_custom_style, FILL)
             styledAttrs.recycle()
-
         }
 
         paint.color = color

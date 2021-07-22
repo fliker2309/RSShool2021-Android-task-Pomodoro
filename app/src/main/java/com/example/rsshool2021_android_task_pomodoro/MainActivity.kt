@@ -1,11 +1,13 @@
 package com.example.rsshool2021_android_task_pomodoro
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
-import androidx.core.view.isInvisible
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rsshool2021_android_task_pomodoro.`interface`.TimerListener
 import com.example.rsshool2021_android_task_pomodoro.databinding.ActivityMainBinding
@@ -16,17 +18,13 @@ class MainActivity : AppCompatActivity(), TimerListener {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val stopwatches = mutableListOf<Timer>()
-    private val stopwatchAdapter = TimerAdapter(this)
+    private val timers = mutableListOf<Timer>()
+    private val timerAdapter = TimerAdapter(this)
     private var nextId = 0
-    private var startMs: Long? = null
 
     private var minutes: EditText? = null
-    private var seconds: EditText? = null
-
-    private var min: Long? = null
-    private var sec: Long? = null
-
+    private var mins = ""
+    private var minutesMillis = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,88 +34,81 @@ class MainActivity : AppCompatActivity(), TimerListener {
 
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = stopwatchAdapter
+            adapter = timerAdapter
         }
 
+        //проверка на ввод значения
         minutes = binding.fieldMinutes
-        seconds = binding.fieldSeconds
-
         enableAddTimerButton()
         minutes?.doAfterTextChanged {
-            min = minutes?.text.toString().toLongOrNull()
-            enableAddTimerButton()
-        }
-        seconds?.doAfterTextChanged {
-            sec = seconds?.text.toString().toLongOrNull()
-            enableAddTimerButton()
+                mins = minutes?.text.toString()
+                enableAddTimerButton()
         }
 
         initListeners()
     }
 
     private fun enableAddTimerButton() {
-        binding.addNewTimerButton.isEnabled = isCorrectInput(min, sec)
+        binding.addNewTimerButton.isEnabled = isCorrectInput(mins)
     }
 
-    private fun isCorrectInput(min: Long?, sec: Long?): Boolean {
-        return min != null || sec != null
+    private fun isCorrectInput(mins: String): Boolean {
+        return mins != ""
     }
 
     private fun initListeners() {
-
         binding.addNewTimerButton.setOnClickListener {
-
-             startMs = min?.let {
-                min!! * 1000L * 60L
-            } ?: 0L
-
-            startMs!! += sec?.let {
-                sec!! * 1000L
-            } ?: 0L
-
-            changeTimer(it.id, startMs!!, false, startMs, false)
+            try {
+                minutesMillis = mins.toLong()
+                minutesMillis *= 1000L * 60
+                timers.add(Timer(nextId++, minutesMillis, false, minutesMillis))
+                timerAdapter.submitList(timers.toList())
+            } catch (e:NumberFormatException) {
+                Toast.makeText(applicationContext,"Please,delete symbol :", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
         }
     }
 
-    override fun start(id: Int, startMs: Long) {
-        changeTimer(id, startMs, true, startMs, false)
+    override fun start(id: Int) {
+        changeTimer(id, null, true)// добавить остановку других таймеров при запуске одного
+
     }
 
     override fun stop(id: Int, currentMs: Long) {
-        changeTimer(id, currentMs, false, currentMs, false)
+        changeTimer(id, currentMs, false)
     }
 
     override fun delete(id: Int) {
-        stopwatches.remove(stopwatches.find { it.id == id })
-        stopwatchAdapter.submitList(stopwatches.toList())
+        timers.remove(timers.find { it.id == id })
+        timerAdapter.submitList(timers.toList())
     }
 
     private fun changeTimer(
         id: Int,
-        startMs: Long,
-        isStarted: Boolean,
         currentMs: Long?,
-        isFinished: Boolean
+        isStarted: Boolean
     ) {
         val newTimers = mutableListOf<Timer>()
-        stopwatches.forEach {
-            if (it.id == id) {
+        timers.forEach { timer ->
+            if (timer.id == id) {
                 newTimers.add(
                     Timer(
-                        it.id,
-                        it.startMs,
+                        timer.id,
+                        timer.startMs,
                         isStarted,
-                        currentMs ?: it.currentMs,
-                        isFinished
+                        currentMs ?: timer.currentMs
                     )
                 )
             } else {
-                newTimers.add(it)
+                newTimers.add(timer)
             }
         }
-        stopwatchAdapter.submitList(newTimers)
-        stopwatches.clear()
-        stopwatches.addAll(newTimers)
+
+        timerAdapter.submitList(newTimers)
+        timers.clear()
+        timers.addAll(newTimers)
+
     }
 }
