@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+     /*   ProcessLifecycleOwner.get().lifecycle.addObserver(this)*/
 
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(context)
@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
 
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+   /* @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onAppBackgrounded(){
         timers.forEach {
             if(it.isStarted){
@@ -148,6 +148,6 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
        val intent = Intent(this,ForegroundService::class.java)
         intent.putExtra(COMMAND_ID,COMMAND_STOP)
         startService(intent)
-    }
+    }*/
 
 }
