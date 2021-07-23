@@ -14,10 +14,11 @@ import com.example.rsshool2021_android_task_pomodoro.`interface`.TimerListener
 import com.example.rsshool2021_android_task_pomodoro.databinding.ActivityMainBinding
 import com.example.rsshool2021_android_task_pomodoro.model.Timer
 import com.example.rsshool2021_android_task_pomodoro.recycler.TimerAdapter
-import com.example.rsshool2021_android_task_pomodoro.service.COMMAND_ID
-import com.example.rsshool2021_android_task_pomodoro.service.COMMAND_START
-import com.example.rsshool2021_android_task_pomodoro.service.COMMAND_STOP
-import com.example.rsshool2021_android_task_pomodoro.service.STARTED_TIMER_TIME_MS
+import com.example.rsshool2021_android_task_pomodoro.COMMAND_ID
+import com.example.rsshool2021_android_task_pomodoro.COMMAND_START
+import com.example.rsshool2021_android_task_pomodoro.COMMAND_STOP
+import com.example.rsshool2021_android_task_pomodoro.STARTED_TIMER_TIME_MS
+import com.example.rsshool2021_android_task_pomodoro.service.ForegroundService
 
 class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
 
@@ -33,11 +34,11 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-     /*   ProcessLifecycleOwner.get().lifecycle.addObserver(this)*/
+
 
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(context)
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
             mins = minutes?.text.toString()
             enableAddTimerButton()
         }
+        
 
         initListeners()
     }
@@ -131,23 +133,23 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
 
     }
 
-   /* @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onAppBackgrounded(){
         timers.forEach {
             if(it.isStarted){
-                val intent = Intent(this, ForegroundService::class.java)
-                intent.putExtra(COMMAND_ID, COMMAND_START)
-                intent.putExtra(STARTED_TIMER_TIME_MS, it)
-                startService(intent)
+                val startIntent = Intent(this, ForegroundService::class.java)
+                startIntent.putExtra(COMMAND_ID, COMMAND_START)
+                startIntent.putExtra(STARTED_TIMER_TIME_MS, it)
+                startService(startIntent)
             }
         }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onAppForeground(){
-       val intent = Intent(this,ForegroundService::class.java)
-        intent.putExtra(COMMAND_ID,COMMAND_STOP)
-        startService(intent)
-    }*/
+       val stopIntent = Intent(this,ForegroundService::class.java)
+        stopIntent.putExtra(COMMAND_ID,COMMAND_STOP)
+        startService(stopIntent)
+    }
 
 }
