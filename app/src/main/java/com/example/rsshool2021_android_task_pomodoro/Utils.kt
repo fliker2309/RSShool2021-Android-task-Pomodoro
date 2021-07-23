@@ -1,4 +1,4 @@
-package com.example.rsshool2021_android_task_pomodoro.service
+package com.example.rsshool2021_android_task_pomodoro
 
 const val START_TIME = "00:00:00"
 const val INVALID = "INVALID"
@@ -9,6 +9,9 @@ const val STARTED_TIMER_TIME_MS = "STARTED_TIMER_TIME"
 const val PROGRESS_START = 0
 const val PROGRESS_MAX = 100
 const val UNIT_TEN_MS = 10L
+const val CHANNEL_ID = "Channel_ID"
+const val NOTIFICATION_ID = 777
+const val INTERVAL = 1000L
 
 fun Long.displayTime(): String {
     if (this <= 0L) {

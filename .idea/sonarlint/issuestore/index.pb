@@ -1,8 +1,6 @@
 
 <
 build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
-@
-app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
 w
 G.idea/sonarlint/issuestore/f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164,3\1\31073cf3a12b082ef2fe0f9403916a4db3811c89
 Š
@@ -11,7 +9,5 @@ Zapp/src/main/java/com/example/rsshool2021_android_task_pomodoro/interface/Timer
 Napp/src/main/java/com/example/rsshool2021_android_task_pomodoro/model/Timer.kt,8\b\8b95e6883bcc6bda1c147fbe5bfdbac340dce028
 }
 Mapp/src/main/java/com/example/rsshool2021_android_task_pomodoro/CustomView.kt,d\e\de0243969391512f6271e2e3d20d8a56cc188311
-x
-Happ/src/main/java/com/example/rsshool2021_android_task_pomodoro/Utils.kt,3\9\39c48b72fae88fed00f26146d7132b7527820104
 ˆ
 Xapp/src/main/java/com/example/rsshool2021_android_task_pomodoro/recycler/TimerAdapter.kt,6\d\6daa6cd31a39f7efb262874b80d52c05ce36b528
