@@ -1,4 +1,4 @@
-package com.example.rsshool2021_android_task_pomodoro
+package com.example.rsshool2021_android_task_pomodoro.utils
 
 const val START_TIME = "00:00:00"
 const val INVALID = "INVALID"

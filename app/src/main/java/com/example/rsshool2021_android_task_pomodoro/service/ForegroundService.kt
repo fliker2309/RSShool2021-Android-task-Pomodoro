@@ -13,6 +13,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.rsshool2021_android_task_pomodoro.*
 import com.example.rsshool2021_android_task_pomodoro.model.Timer
+import com.example.rsshool2021_android_task_pomodoro.utils.*
 import kotlinx.coroutines.*
 
 class ForegroundService : Service() {
@@ -108,7 +109,7 @@ class ForegroundService : Service() {
                 delay(INTERVAL)
                 if (timer.currentMs.toInt() <= 0) {
                     commandStop()
-                    mediaPlayer = MediaPlayer.create(applicationContext,R.raw.ending) //есть другой звук, изменить путь на R.raw.ended :)
+                    mediaPlayer = MediaPlayer.create(applicationContext,R.raw.ending)
                     mediaPlayer?.start()
                 }
             }

@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rsshool2021_android_task_pomodoro.R
 import com.example.rsshool2021_android_task_pomodoro.`interface`.TimerListener
 import com.example.rsshool2021_android_task_pomodoro.model.Timer
-import com.example.rsshool2021_android_task_pomodoro.UNIT_TEN_MS
+import com.example.rsshool2021_android_task_pomodoro.utils.UNIT_TEN_MS
 import com.example.rsshool2021_android_task_pomodoro.databinding.TimerItemBinding
-import com.example.rsshool2021_android_task_pomodoro.displayTime
+import com.example.rsshool2021_android_task_pomodoro.utils.displayTime
 
 class TimerViewHolder(
     private val binding: TimerItemBinding,
@@ -72,7 +72,7 @@ class TimerViewHolder(
 
         binding.deleteTimerButton.setOnClickListener {
             setIsRecyclable(true)
-            stopTimer(timer)
+          /*  stopTimer(timer)*/
             timer.isStarted = false
             listener.delete(timer.id)
         }
@@ -116,7 +116,7 @@ class TimerViewHolder(
                 binding.timerStartStopBtn.text = "ENDED"
                 timer.isStarted = false
                 timer.isFinished = true
-                setIsRecyclable(false)
+                setIsRecyclable(true)
                 (binding.blinkingIndicator.background as? AnimationDrawable)?.stop()
             }
         }
