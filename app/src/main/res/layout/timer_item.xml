@@ -16,7 +16,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -35,15 +35,15 @@
             android:background="@drawable/blinking_circle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_goneMarginEnd="@dimen/main_margin" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/timer_clock"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/main_margin"
             android:text="00:00:00"
+            android:gravity="center"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/progress_bar_circular"
@@ -53,25 +53,24 @@
             android:id="@+id/progress_bar_circular"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginEnd="@dimen/main_margin"
             app:custom_color="@color/purple_500"
             app:custom_style="fill"
-            android:layout_marginEnd="@dimen/main_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/timer_start_stop_btn"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/main_margin"
             android:layout_marginStart="@dimen/main_margin"
+            android:layout_marginEnd="@dimen/main_margin"
             android:background="@color/black"
             android:text="START"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/delete_timer_button"
+            app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
@@ -81,11 +80,11 @@
             android:layout_marginEnd="@dimen/main_margin"
             android:background="@color/cardview_light_background"
             android:padding="8dp"
-            app:tint="@color/purple_500"
             android:src="@drawable/ic_baseline_delete_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/purple_500" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

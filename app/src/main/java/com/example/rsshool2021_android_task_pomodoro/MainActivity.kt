@@ -103,7 +103,8 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver {
                     it.id,
                     it.startMs,
                     false,
-                    it.currentMs
+                    it.currentMs,
+                    it.isFinished
                 )
             )
         }
@@ -135,7 +136,8 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver {
                         timer.id,
                         timer.startMs,
                         isStarted,
-                        currentMs ?: timer.currentMs
+                        currentMs ?: timer.currentMs,
+                        timer.isFinished
                     )
                 )
             } else {
