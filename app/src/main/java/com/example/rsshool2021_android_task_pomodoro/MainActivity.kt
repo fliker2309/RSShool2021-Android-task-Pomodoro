@@ -26,8 +26,13 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver {
     private var nextId = 0
 
     private var minutes: EditText? = null
-    private var minutesString = ""
+    private var seconds: EditText? = null
+
+    private var minutesString = "0"
+    private var secondsString = "0"
     private var minutesMillis = 0L
+    private var secondsMillis = 0L
+    private var totalTimeMillis = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +49,14 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver {
 
         //проверка на ввод значения
         minutes = binding.fieldMinutes
+        seconds = binding.fieldSeconds
         enableAddTimerButton()
         minutes?.doAfterTextChanged {
             minutesString = minutes?.text.toString()
+            enableAddTimerButton()
+        }
+        seconds?.doAfterTextChanged {
+            secondsString = seconds?.text.toString()
             enableAddTimerButton()
         }
 
@@ -54,11 +64,13 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver {
     }
 
     private fun enableAddTimerButton() {
-        binding.addNewTimerButton.isEnabled = isCorrectInput(minutesString)
+        binding.addNewTimerButton.isEnabled =
+            isCorrectInput(minutesString, secondsString)
     }
 
-    private fun isCorrectInput(minutesString: String): Boolean {
-        return minutesString != "" && minutesString != "0" && minutesString != "00" && minutesString != "000" && minutesString != "0000"
+    private fun isCorrectInput(minutesString: String, secondsString: String): Boolean {
+
+        return (minutesString != "" || secondsString != "") && (minutesString !="") && (secondsString !="") && (minutesString != "" || secondsString != "0") && (minutesString != "" || secondsString != "00") && (minutesString != "0" || secondsString != "") && (minutesString != "00" || secondsString != "")&& (minutesString != "0" || secondsString != "0") && (minutesString != "0" || secondsString != "00")&& (minutesString != "00" || secondsString != "0") && (minutesString != "00" || secondsString != "00")
     }
 
     private fun initListeners() {
@@ -66,10 +78,16 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver {
             try {
                 minutesMillis = minutesString.toLong()
                 minutesMillis *= 1000L * 60
-                timers.add(Timer(nextId++, minutesMillis, false, minutesMillis))
+
+                secondsMillis = secondsString.toLong()
+                secondsMillis *= 1000L
+
+                totalTimeMillis = minutesMillis+secondsMillis
+
+                timers.add(Timer(nextId++, totalTimeMillis, false, totalTimeMillis))
                 timerAdapter.submitList(timers.toList())
             } catch (e: NumberFormatException) {
-                Toast.makeText(applicationContext, "Please,delete symbol :", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, "Please,enter correct time", Toast.LENGTH_SHORT)
                     .show()
                 return@setOnClickListener
             }

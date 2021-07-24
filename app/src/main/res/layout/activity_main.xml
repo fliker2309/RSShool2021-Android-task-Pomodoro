@@ -30,13 +30,47 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/main_margin"
         android:background="@color/transparent"
-        android:hint="Minutes"
+        android:hint="00"
         android:inputType="time"
-        android:maxLength="4"
+        android:maxLength="2"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintBottom_toBottomOf="@id/margin_bottom_guideline"
         app:layout_constraintStart_toStartOf="parent" />
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/minutes_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="MINUTES"
 
+        app:layout_constraintStart_toStartOf="@id/field_minutes"
+        app:layout_constraintEnd_toEndOf="@id/field_minutes"
+        app:layout_constraintBottom_toBottomOf="@id/margin_bottom_guideline"/>
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/field_seconds"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/main_margin"
+        android:background="@color/transparent"
+        android:hint="00"
+        android:inputType="time"
+        android:maxLength="2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toBottomOf="@id/margin_bottom_guideline"
+        app:layout_constraintStart_toEndOf="@id/field_minutes" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/seconds_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="SECONDS"
+        app:layout_constraintStart_toStartOf="@id/field_seconds"
+        app:layout_constraintEnd_toEndOf="@id/field_seconds"
+        app:layout_constraintBottom_toBottomOf="@id/margin_bottom_guideline"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/add_new_timer_button"
