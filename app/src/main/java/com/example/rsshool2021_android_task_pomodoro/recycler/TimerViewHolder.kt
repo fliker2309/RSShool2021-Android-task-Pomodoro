@@ -3,7 +3,9 @@ package com.example.rsshool2021_android_task_pomodoro.recycler
 import android.content.res.Resources
 import android.graphics.drawable.AnimationDrawable
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.core.view.isVisible
+import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rsshool2021_android_task_pomodoro.R
 import com.example.rsshool2021_android_task_pomodoro.`interface`.TimerListener
@@ -16,7 +18,7 @@ class TimerViewHolder(
     private val binding: TimerItemBinding,
     private val listener: TimerListener,
     private val resources: Resources
-) : RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root),LifecycleObserver {
 
     private var countDownTimer: CountDownTimer? = null
 
@@ -37,6 +39,7 @@ class TimerViewHolder(
                     stopTimer(timer)
                     timer.isStarted = false
                     timerItem.setCardBackgroundColor(resources.getColor(R.color.white))
+                    deleteTimerButton.setBackgroundColor(resources.getColor(R.color.white))
                     listener.delete(timer.id)
                 }
             }
@@ -60,7 +63,7 @@ class TimerViewHolder(
                 }
                 initButtonsListener(timer)
             }
-    }
+          }
 
     private fun initButtonsListener(timer: Timer) {
         binding.timerStartStopBtn.setOnClickListener {
@@ -76,7 +79,9 @@ class TimerViewHolder(
             stopTimer(timer)
             timer.isStarted = false
             binding.timerItem.setCardBackgroundColor(resources.getColor(R.color.white))
+            binding.deleteTimerButton.setBackgroundColor(resources.getColor(R.color.white))
             listener.delete(timer.id)
+            Log.d("TAG","Delete timer ${timer.id}")
         }
     }
 
@@ -89,7 +94,6 @@ class TimerViewHolder(
         countDownTimer?.start()
         binding.blinkingIndicator.isVisible = true
         (binding.blinkingIndicator.background as? AnimationDrawable)?.start()
-
     }
 
     private fun stopTimer(timer: Timer) {
@@ -97,6 +101,7 @@ class TimerViewHolder(
         binding.blinkingIndicator.isVisible = false
         (binding.blinkingIndicator.background as? AnimationDrawable)?.stop()
         binding.timerStartStopBtn.text = "START"
+        Log.d("TAG", " Stop timer id = ${timer.id}")
     }
 
     private fun getCountDownTimer(timer: Timer): CountDownTimer {
@@ -119,6 +124,7 @@ class TimerViewHolder(
                 timer.isStarted = false
                 timer.isFinished = true
                 (binding.blinkingIndicator.background as? AnimationDrawable)?.stop()
+                Log.d("TAG", " Finish timer id = ${timer.id} + timer isFinished = ${timer.isFinished}")
             }
         }
     }
