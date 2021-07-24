@@ -92,7 +92,6 @@ class TimerViewHolder(
 
     private fun stopTimer(timer: Timer) {
         countDownTimer?.cancel()
-
         binding.blinkingIndicator.isVisible = false
         (binding.blinkingIndicator.background as? AnimationDrawable)?.stop()
         binding.timerStartStopBtn.text = "START"
