@@ -17,7 +17,7 @@ import com.example.rsshool2021_android_task_pomodoro.model.Timer
 import com.example.rsshool2021_android_task_pomodoro.recycler.TimerAdapter
 import com.example.rsshool2021_android_task_pomodoro.service.ForegroundService
 
-class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
+class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
     }
 
     private fun isCorrectInput(minutesString: String): Boolean {
-        return minutesString != ""
+        return minutesString != "" && minutesString != "0" && minutesString != "00" && minutesString != "000" && minutesString != "0000"
     }
 
     private fun initListeners() {
@@ -142,9 +142,9 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onAppForeground(){
-       val stopIntent = Intent(this,ForegroundService::class.java)
-        stopIntent.putExtra(COMMAND_ID,COMMAND_STOP)
+    fun onAppForeground() {
+        val stopIntent = Intent(this, ForegroundService::class.java)
+        stopIntent.putExtra(COMMAND_ID, COMMAND_STOP)
         startService(stopIntent)
     }
 
