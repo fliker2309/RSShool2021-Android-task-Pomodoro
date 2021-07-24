@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.view.Gravity.FILL
 import android.view.View
 import androidx.annotation.AttrRes
 
@@ -66,10 +65,8 @@ class CustomView @JvmOverloads constructor(
     }
 
     private companion object {
-
         private const val FILL = 0
     }
-
 }
 
 

@@ -58,13 +58,13 @@ class ForegroundService : Service() {
             COMMAND_STOP -> commandStop()
             INVALID -> return
         }
-
     }
 
     private fun commandStart(timer: Timer){
         if(isServiceStarted) {
             return
         }
+
         Log.i("TAG", "commandStart()")
         try {
             if(timer.currentMs.toInt() !=0){
@@ -81,6 +81,7 @@ class ForegroundService : Service() {
         if (!isServiceStarted){
             return
         }
+
         Log.i("TAG", "commandStop()")
         try {
             job?.cancel()
@@ -107,15 +108,16 @@ class ForegroundService : Service() {
                 if (timer.currentMs.toInt() <= 0) {
                     commandStop()
                 }
-
             }
         }
     }
 
     private fun moveToStartedState() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Log.d("TAG", "moveToStartedState(): Running on Android O or higher")
             startForegroundService(Intent(this, ForegroundService::class.java))
         } else {
+            Log.d("TAG", "moveToStartedState(): Running on Android N or lower")
             startService(Intent(this, ForegroundService::class.java))
         }
     }
@@ -145,18 +147,4 @@ class ForegroundService : Service() {
         return PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_ONE_SHOT)
     }
 
-    private fun getCountDownTimer(timer: Timer): CountDownTimer {
-
-        return object : CountDownTimer(timer.currentMs, UNIT_TEN_MS) {
-
-            override fun onTick(millisUntilFinished: Long) {
-                timer.currentMs = millisUntilFinished
-                timer.currentMs.displayTime()
-            }
-            override fun onFinish() {
-
-                stopSelf()
-            }
-        }
-    }
 }

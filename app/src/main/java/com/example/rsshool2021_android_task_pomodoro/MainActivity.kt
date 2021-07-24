@@ -37,8 +37,6 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = timerAdapter
@@ -129,7 +127,6 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
         timerAdapter.submitList(newTimers)
         timers.clear()
         timers.addAll(newTimers)
-
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
@@ -141,7 +138,6 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
                 startIntent.putExtra(STARTED_TIMER_TIME_MS, it)
                 startService(startIntent)
             }
-
         }
     }
 

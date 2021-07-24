@@ -8,9 +8,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rsshool2021_android_task_pomodoro.R
 import com.example.rsshool2021_android_task_pomodoro.`interface`.TimerListener
-import com.example.rsshool2021_android_task_pomodoro.databinding.TimerItemBinding
 import com.example.rsshool2021_android_task_pomodoro.model.Timer
 import com.example.rsshool2021_android_task_pomodoro.UNIT_TEN_MS
+import com.example.rsshool2021_android_task_pomodoro.databinding.TimerItemBinding
 import com.example.rsshool2021_android_task_pomodoro.displayTime
 
 class TimerViewHolder(
@@ -23,6 +23,7 @@ class TimerViewHolder(
 
     fun bind(timer: Timer) {
         binding.timerItem.setCardBackgroundColor(resources.getColor(R.color.design_default_color_background))
+        binding.deleteTimerButton.setBackgroundColor(resources.getColor(R.color.design_default_color_background))
         binding.timerClock.text = timer.currentMs.displayTime()
         binding.timerStartStopBtn.text = "START"
         binding.progressBarCircular.setPeriod(timer.startMs)
@@ -40,7 +41,6 @@ class TimerViewHolder(
 
         initButtonsListener(timer)
     }
-
 
     private fun initButtonsListener(timer: Timer) {
         binding.timerStartStopBtn.setOnClickListener {
@@ -91,7 +91,8 @@ class TimerViewHolder(
             }
 
             override fun onFinish() {
-                binding.timerItem.setCardBackgroundColor(resources.getColor(R.color.teal_700))
+                binding.timerItem.setCardBackgroundColor(resources.getColor(R.color.teal_200))
+                binding.deleteTimerButton.setBackgroundColor(resources.getColor(R.color.teal_200))
                 binding.progressBarCircular.setCurrent(timer.startMs - timer.currentMs)
                 binding.blinkingIndicator.isVisible = false
                 binding.timerStartStopBtn.isClickable = false

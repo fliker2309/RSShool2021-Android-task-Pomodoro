@@ -36,7 +36,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_goneMarginEnd="16dp" />
+            app:layout_goneMarginEnd="@dimen/main_margin" />
 
         <TextView
             android:id="@+id/timer_clock"
@@ -48,7 +48,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/progress_bar_circular"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <com.example.rsshool2021_android_task_pomodoro.CustomView
             android:id="@+id/progress_bar_circular"
@@ -82,6 +81,7 @@
             android:layout_marginEnd="@dimen/main_margin"
             android:background="@color/cardview_light_background"
             android:padding="8dp"
+            app:tint="@color/purple_500"
             android:src="@drawable/ic_baseline_delete_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
