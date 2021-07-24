@@ -37,6 +37,7 @@ class TimerViewHolder(
                 progressBarCircular.setCurrent(timer.startMs - timer.currentMs)
                 deleteTimerButton.setOnClickListener {
                     stopTimer(timer)
+                    setIsRecyclable(true)
                     timer.isStarted = false
                     timerItem.setCardBackgroundColor(resources.getColor(R.color.white))
                     deleteTimerButton.setBackgroundColor(resources.getColor(R.color.white))
@@ -50,10 +51,6 @@ class TimerViewHolder(
                 timerClock.text = timer.currentMs.displayTime()
                 timerStartStopBtn.text = "START"
                 progressBarCircular.setPeriod(timer.startMs)
-                if (timer.currentMs >= timer.startMs) {
-                    progressBarCircular.setCurrent(0)
-                } else progressBarCircular.setCurrent(timer.startMs - timer.currentMs)
-
                 if (timer.isStarted) {
                     startTimer(timer)
                     binding.timerStartStopBtn.text = "STOP"
@@ -61,6 +58,10 @@ class TimerViewHolder(
                     stopTimer(timer)
                     binding.timerStartStopBtn.text = "START"
                 }
+                if (timer.currentMs >= timer.startMs) {
+                    progressBarCircular.setCurrent(0)
+                } else progressBarCircular.setCurrent(timer.startMs - timer.currentMs)
+
                 initButtonsListener(timer)
             }
           }
@@ -105,6 +106,7 @@ class TimerViewHolder(
     }
 
     private fun getCountDownTimer(timer: Timer): CountDownTimer {
+
         return object : CountDownTimer(timer.currentMs, UNIT_TEN_MS) {
 
             override fun onTick(millisToFinish: Long) {
@@ -114,7 +116,6 @@ class TimerViewHolder(
             }
 
             override fun onFinish() {
-                setIsRecyclable(false)
                 binding.timerItem.setCardBackgroundColor(resources.getColor(R.color.teal_200))
                 binding.deleteTimerButton.setBackgroundColor(resources.getColor(R.color.teal_200))
                 binding.progressBarCircular.setCurrent(timer.startMs - timer.currentMs)
@@ -123,6 +124,7 @@ class TimerViewHolder(
                 binding.timerStartStopBtn.text = "ENDED"
                 timer.isStarted = false
                 timer.isFinished = true
+                setIsRecyclable(true)
                 (binding.blinkingIndicator.background as? AnimationDrawable)?.stop()
                 Log.d("TAG", " Finish timer id = ${timer.id} + timer isFinished = ${timer.isFinished}")
             }
