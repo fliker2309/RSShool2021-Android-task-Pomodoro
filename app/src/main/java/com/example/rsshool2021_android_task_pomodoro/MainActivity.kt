@@ -9,15 +9,12 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rsshool2021_android_task_pomodoro.`interface`.TimerListener
 import com.example.rsshool2021_android_task_pomodoro.databinding.ActivityMainBinding
 import com.example.rsshool2021_android_task_pomodoro.model.Timer
 import com.example.rsshool2021_android_task_pomodoro.recycler.TimerAdapter
-import com.example.rsshool2021_android_task_pomodoro.COMMAND_ID
-import com.example.rsshool2021_android_task_pomodoro.COMMAND_START
-import com.example.rsshool2021_android_task_pomodoro.COMMAND_STOP
-import com.example.rsshool2021_android_task_pomodoro.STARTED_TIMER_TIME_MS
 import com.example.rsshool2021_android_task_pomodoro.service.ForegroundService
 
 class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
@@ -29,12 +26,14 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
     private var nextId = 0
 
     private var minutes: EditText? = null
-    private var mins = ""
+    private var minutesString = ""
     private var minutesMillis = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -44,30 +43,30 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
             layoutManager = LinearLayoutManager(context)
             adapter = timerAdapter
         }
+
         //проверка на ввод значения
         minutes = binding.fieldMinutes
         enableAddTimerButton()
         minutes?.doAfterTextChanged {
-            mins = minutes?.text.toString()
+            minutesString = minutes?.text.toString()
             enableAddTimerButton()
         }
-        
 
         initListeners()
     }
 
     private fun enableAddTimerButton() {
-        binding.addNewTimerButton.isEnabled = isCorrectInput(mins)
+        binding.addNewTimerButton.isEnabled = isCorrectInput(minutesString)
     }
 
-    private fun isCorrectInput(mins: String): Boolean {
-        return mins != ""
+    private fun isCorrectInput(minutesString: String): Boolean {
+        return minutesString != ""
     }
 
     private fun initListeners() {
         binding.addNewTimerButton.setOnClickListener {
             try {
-                minutesMillis = mins.toLong()
+                minutesMillis = minutesString.toLong()
                 minutesMillis *= 1000L * 60
                 timers.add(Timer(nextId++, minutesMillis, false, minutesMillis))
                 timerAdapter.submitList(timers.toList())
@@ -134,14 +133,15 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onAppBackgrounded(){
+    fun onAppBackgrounded() {
         timers.forEach {
-            if(it.isStarted){
+            if (it.isStarted) {
                 val startIntent = Intent(this, ForegroundService::class.java)
                 startIntent.putExtra(COMMAND_ID, COMMAND_START)
                 startIntent.putExtra(STARTED_TIMER_TIME_MS, it)
                 startService(startIntent)
             }
+
         }
     }
 
@@ -150,6 +150,13 @@ class MainActivity : AppCompatActivity(), TimerListener, LifecycleObserver  {
        val stopIntent = Intent(this,ForegroundService::class.java)
         stopIntent.putExtra(COMMAND_ID,COMMAND_STOP)
         startService(stopIntent)
+    }
+
+    override fun onDestroy() {
+        val stopIntent = Intent(this, ForegroundService::class.java)
+        stopIntent.putExtra(COMMAND_ID, COMMAND_STOP)
+        startService(stopIntent)
+        super.onDestroy()
     }
 
 }

@@ -8,9 +8,11 @@ import android.app.NotificationChannel
 import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
+import android.os.CountDownTimer
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.rsshool2021_android_task_pomodoro.*
+import com.example.rsshool2021_android_task_pomodoro.model.Timer
 import kotlinx.coroutines.*
 
 class ForegroundService : Service() {
@@ -18,10 +20,11 @@ class ForegroundService : Service() {
     private var isServiceStarted = false
     private var notificationManager: NotificationManager? = null
     private var job: Job? = null
+    private var timer : Timer? = null
 
     private val builder by lazy {
         NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("Simple Timer")
+            .setContentTitle("My Timer")
             .setGroup("Timer")
             .setGroupSummary(false)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
@@ -29,7 +32,6 @@ class ForegroundService : Service() {
             .setContentIntent(getPendingIntent())
             .setSilent(true)
             .setSmallIcon(R.drawable.ic_baseline_access_alarm_24)
-            .build()
     }
 
     override fun onCreate() {
@@ -50,8 +52,8 @@ class ForegroundService : Service() {
     private fun processCommand(intent: Intent?){
         when(intent?.extras?.getString(COMMAND_ID)?: INVALID){
             COMMAND_START -> {
-                val startTime = intent?.extras?.getLong(STARTED_TIMER_TIME_MS) ?: return
-                commandStart(startTime)
+                 timer = intent?.extras?.getSerializable(STARTED_TIMER_TIME_MS)  as Timer ?: return
+                commandStart(timer!!)
             }
             COMMAND_STOP -> commandStop()
             INVALID -> return
@@ -59,15 +61,17 @@ class ForegroundService : Service() {
 
     }
 
-    private fun commandStart(startTime: Long){
+    private fun commandStart(timer: Timer){
         if(isServiceStarted) {
             return
         }
         Log.i("TAG", "commandStart()")
         try {
+            if(timer.currentMs.toInt() !=0){
             moveToStartedState()
-            startForegrounAndShowNotification()
-            continueTimer(startTime)
+            startForegroundAndShowNotification()
+            continueTimer(timer)
+            }
         } finally {
             isServiceStarted = true
         }
@@ -87,8 +91,72 @@ class ForegroundService : Service() {
         }
     }
 
-    private fun continueTimer(startTime: Long){
-        job = CoroutineScope.launch()
+    private fun continueTimer(timer: Timer){
+        job = CoroutineScope(Dispatchers.Main).launch{
+            while (timer.currentMs >=0){
+                if(timer.currentMs.toInt() <=0) stopForeground(true)
+                notificationManager?.notify(
+                    NOTIFICATION_ID,
+                    getNotification(
+                        (timer.currentMs).displayTime()
+                    )
+                )
+                Log.d("TAG","Timer current ms: ${timer.currentMs}")
+                timer.currentMs -= INTERVAL
+                delay(INTERVAL)
+                if (timer.currentMs.toInt() <= 0) {
+                    commandStop()
+                }
+
+            }
+        }
     }
 
+    private fun moveToStartedState() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(Intent(this, ForegroundService::class.java))
+        } else {
+            startService(Intent(this, ForegroundService::class.java))
+        }
+    }
+
+    private fun startForegroundAndShowNotification() {
+        createChannel()
+        val notification = getNotification("content")
+        startForeground(NOTIFICATION_ID, notification)
+    }
+
+    private fun getNotification(content: String) = builder.setContentText(content).build()
+
+    private fun createChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelName = "timer"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val notificationChannel = NotificationChannel(
+                CHANNEL_ID, channelName, importance
+            )
+            notificationManager?.createNotificationChannel(notificationChannel)
+        }
+    }
+
+    private fun getPendingIntent(): PendingIntent? {
+        val resultIntent = Intent(this, MainActivity::class.java)
+        resultIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        return PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_ONE_SHOT)
+    }
+
+    private fun getCountDownTimer(timer: Timer): CountDownTimer {
+
+        return object : CountDownTimer(timer.currentMs, UNIT_TEN_MS) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                timer.currentMs = millisUntilFinished
+                timer.currentMs.displayTime()
+            }
+            override fun onFinish() {
+
+                stopSelf()
+            }
+        }
+    }
 }

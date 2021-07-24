@@ -3,9 +3,6 @@ package com.example.rsshool2021_android_task_pomodoro.recycler
 import android.content.res.Resources
 import android.graphics.drawable.AnimationDrawable
 import android.os.CountDownTimer
-import android.view.View
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -13,9 +10,8 @@ import com.example.rsshool2021_android_task_pomodoro.R
 import com.example.rsshool2021_android_task_pomodoro.`interface`.TimerListener
 import com.example.rsshool2021_android_task_pomodoro.databinding.TimerItemBinding
 import com.example.rsshool2021_android_task_pomodoro.model.Timer
-import com.example.rsshool2021_android_task_pomodoro.service.UNIT_TEN_MS
-import com.example.rsshool2021_android_task_pomodoro.service.displayTime
-import android.content.Context as Context1
+import com.example.rsshool2021_android_task_pomodoro.UNIT_TEN_MS
+import com.example.rsshool2021_android_task_pomodoro.displayTime
 
 class TimerViewHolder(
     private val binding: TimerItemBinding,
