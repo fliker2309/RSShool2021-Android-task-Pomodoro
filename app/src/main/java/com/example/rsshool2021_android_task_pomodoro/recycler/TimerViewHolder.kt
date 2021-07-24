@@ -3,7 +3,6 @@ package com.example.rsshool2021_android_task_pomodoro.recycler
 import android.content.res.Resources
 import android.graphics.drawable.AnimationDrawable
 import android.os.CountDownTimer
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rsshool2021_android_task_pomodoro.R
@@ -22,24 +21,42 @@ class TimerViewHolder(
     private var countDownTimer: CountDownTimer? = null
 
     fun bind(timer: Timer) {
-        binding.timerItem.setCardBackgroundColor(resources.getColor(R.color.design_default_color_background))
-        binding.deleteTimerButton.setBackgroundColor(resources.getColor(R.color.design_default_color_background))
-        binding.timerClock.text = timer.currentMs.displayTime()
-        binding.timerStartStopBtn.text = "START"
-        binding.progressBarCircular.setPeriod(timer.startMs)
+
         setIsRecyclable(true)
 
-        if (timer.currentMs >= timer.startMs) {
-            binding.progressBarCircular.setCurrent(0)
-        } else binding.progressBarCircular.setCurrent(timer.startMs - timer.currentMs)
+        if (timer.isFinished) {
+            with(binding) {
+                timerClock.text = "00:00:00"
+                timerItem.setCardBackgroundColor(resources.getColor(R.color.teal_200))
+                timerStartStopBtn.isClickable = false
+                timerStartStopBtn.text = "ENDED"
+                progressBarCircular.setPeriod(timer.startMs)
+                progressBarCircular.setCurrent(timer.startMs - timer.currentMs)
+                deleteTimerButton.setOnClickListener {
+                    stopTimer(timer)
+                    timer.isStarted = false
+                    timerItem.setCardBackgroundColor(resources.getColor(R.color.white))
+                    listener.delete(timer.id)
+                }
+            }
+        } else
+            with(binding) {
+               timerItem.setCardBackgroundColor(resources.getColor(R.color.design_default_color_background))
+                deleteTimerButton.setBackgroundColor(resources.getColor(R.color.design_default_color_background))
+                timerClock.text = timer.currentMs.displayTime()
+                timerStartStopBtn.text = "START"
+                progressBarCircular.setPeriod(timer.startMs)
+                if (timer.currentMs >= timer.startMs) {
+                    progressBarCircular.setCurrent(0)
+                } else progressBarCircular.setCurrent(timer.startMs - timer.currentMs)
 
-        if (timer.isStarted) {
-            startTimer(timer)
-        } else {
-            stopTimer(timer)
-        }
-
-        initButtonsListener(timer)
+                if (timer.isStarted) {
+                    startTimer(timer)
+                } else {
+                    stopTimer(timer)
+                }
+                initButtonsListener(timer)
+            }
     }
 
     private fun initButtonsListener(timer: Timer) {
@@ -76,7 +93,7 @@ class TimerViewHolder(
     private fun stopTimer(timer: Timer) {
         countDownTimer?.cancel()
 
-        binding.blinkingIndicator.isInvisible = true
+        binding.blinkingIndicator.isVisible = false
         (binding.blinkingIndicator.background as? AnimationDrawable)?.stop()
         binding.timerStartStopBtn.text = "START"
     }
@@ -97,7 +114,9 @@ class TimerViewHolder(
                 binding.blinkingIndicator.isVisible = false
                 binding.timerStartStopBtn.isClickable = false
                 binding.timerStartStopBtn.text = "ENDED"
-                setIsRecyclable(true)
+                timer.isStarted = false
+                timer.isFinished = true
+                setIsRecyclable(false)
                 (binding.blinkingIndicator.background as? AnimationDrawable)?.stop()
             }
         }
