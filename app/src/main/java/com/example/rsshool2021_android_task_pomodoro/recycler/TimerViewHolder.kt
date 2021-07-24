@@ -72,7 +72,7 @@ class TimerViewHolder(
 
         binding.deleteTimerButton.setOnClickListener {
             setIsRecyclable(true)
-          /*  stopTimer(timer)*/
+            stopTimer(timer)
             timer.isStarted = false
             listener.delete(timer.id)
         }
