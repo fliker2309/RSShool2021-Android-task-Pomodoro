@@ -2,13 +2,13 @@ package com.example.rsshool2021_android_task_pomodoro.service
 
 import android.app.NotificationManager
 import android.app.Service
+import android.media.MediaPlayer
 import android.content.Intent
 import android.os.IBinder
 import android.app.NotificationChannel
 import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
-import android.os.CountDownTimer
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.rsshool2021_android_task_pomodoro.*
@@ -20,6 +20,7 @@ class ForegroundService : Service() {
     private var isServiceStarted = false
     private var notificationManager: NotificationManager? = null
     private var job: Job? = null
+    private var mediaPlayer:MediaPlayer? = null
     private var timer : Timer? = null
 
     private val builder by lazy {
@@ -107,6 +108,8 @@ class ForegroundService : Service() {
                 delay(INTERVAL)
                 if (timer.currentMs.toInt() <= 0) {
                     commandStop()
+                    mediaPlayer = MediaPlayer.create(applicationContext,R.raw.ending) //есть другой звук, изменить путь на R.raw.ended :)
+                    mediaPlayer?.start()
                 }
             }
         }
